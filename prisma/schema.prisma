@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Property {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+
+  Pricing Pricing[]
+}
+
+model Pricing {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  propertyId String @db.ObjectId
+  method     Int
+  monday     Float
+  tuesday    Float
+  wednesday  Float
+  thursday   Float
+  friday     Float
+  saturday   Float
+  sunday     Float
+
+  property Property @relation(fields: [propertyId], references: [id])
+}
