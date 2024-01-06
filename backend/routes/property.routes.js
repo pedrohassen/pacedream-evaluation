@@ -6,13 +6,14 @@ const {
   updatePropertyController,
   deletePropertyController,
 } = require('../controllers/property.controller');
+const { validateCreation, validateGetById } = require('../middlewares/property.middlewares');
 
 const propertyRouter = Router();
 
-propertyRouter.post('/', createPropertyController);
+propertyRouter.post('/', validateCreation, createPropertyController);
 propertyRouter.get('/', getPropertiesController);
-propertyRouter.get('/:id', getPropertyByIdController);
-propertyRouter.put('/:id', updatePropertyController);
-propertyRouter.delete('/:id', deletePropertyController);
+propertyRouter.get('/:id', validateGetById, getPropertyByIdController);
+propertyRouter.put('/:id', validateGetById, updatePropertyController);
+propertyRouter.delete('/:id', validateGetById, deletePropertyController);
 
 module.exports = propertyRouter;
