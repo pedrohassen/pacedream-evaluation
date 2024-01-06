@@ -19,7 +19,7 @@ model Property {
 
 model Pricing {
   id         String @id @default(auto()) @map("_id") @db.ObjectId
-  propertyId String @db.ObjectId
+  propertyId String @db.ObjectId @unique
   method     Int
   monday     Float
   tuesday    Float
