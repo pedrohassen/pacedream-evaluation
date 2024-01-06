@@ -44,6 +44,9 @@ const getPropertiesController = async (_req, res) => {
 const getPropertyByIdController = async (req, res) => {
   const { id } = req.params;
   const property = await getPropertyByIdService(id);
+  if (!property) {
+    return res.status(404).json({ message: 'Property not found' });
+  }
   return res.status(200).json(property);
 };
 
@@ -77,8 +80,12 @@ const updatePropertyController = async (req, res) => {
 
 const deletePropertyController = async (req, res) => {
   const { id } = req.params;
-  const property = await deletePropertyService(id);
-  return res.status(200).json(property);
+  const property = await getPropertyByIdService(id);
+  if (!property) {
+    return res.status(404).json({ message: 'Property not found' });
+  }
+  const deleteResponse = await deletePropertyService(id);
+  return res.status(200).json(deleteResponse);
 };
 
 module.exports = {
