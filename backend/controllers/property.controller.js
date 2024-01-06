@@ -37,8 +37,8 @@ const createPropertyController = async (req, res) => {
 };
 
 const getPropertiesController = async (_req, res) => {
-  const properties = await getPropertiesService();
-  return res.status(200).json(properties);
+  const propertiesWithPricing = await getPropertiesService();
+  return res.status(200).json(propertiesWithPricing);
 };
 
 const getPropertyByIdController = async (req, res) => {

@@ -12,8 +12,8 @@ const createPropertyService = async (name) => {
 };
 
 const getPropertiesService = async () => {
-  const properties = await getProperties();
-  return properties;
+  const propertiesWithPricing = await getProperties();
+  return propertiesWithPricing;
 };
 
 const getPropertyByIdService = async (id) => {
