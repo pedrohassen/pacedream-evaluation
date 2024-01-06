@@ -16,10 +16,6 @@ const getProperties = async () => {
     orderBy: {
       name: 'asc',
     },
-    select: {
-      id: true,
-      name: true,
-    },
   });
 
   const pricing = await prisma.pricing.findMany({
@@ -37,38 +33,38 @@ const getProperties = async () => {
     },
   });
 
-  const pricingByPropertyId = pricing.reduce((acc, price) => {
-    if (!acc[price.propertyId]) {
-      acc[price.propertyId] = [];
-    }
-    acc[price.propertyId].push(price);
-    return acc;
-  }, {});
-
-  const placesWithPrices = properties
-    .map((property) => ({ ...property, prices: pricingByPropertyId[property.id] || [] }));
+  const placesWithPrices = properties.map((property) => ({
+    ...property,
+    pricing: pricing
+      .filter((price) => price.propertyId === property.id)
+      .map((price) => {
+        const { id: _, propertyId: __, ...rest } = price;
+        return rest;
+      }),
+  }));
 
   return placesWithPrices;
 };
 
 const getPropertyById = async (id) => {
+  if (!id) {
+    return {};
+  }
   const property = await prisma.property.findUnique({
     where: {
       id,
     },
-    select: {
-      id: true,
-      name: true,
-    },
   });
 
-  const pricing = await prisma.pricing.findMany({
+  if (!property) {
+    return null;
+  }
+
+  const pricing = await prisma.pricing.findUnique({
     where: {
       propertyId: id,
     },
     select: {
-      id: true,
-      propertyId: true,
       method: true,
       monday: true,
       tuesday: true,
@@ -80,9 +76,10 @@ const getPropertyById = async (id) => {
     },
   });
 
-  const placesWithPrices = pricing.map((price) => ({ ...property, ...price }));
-
-  return placesWithPrices;
+  return {
+    ...property,
+    pricing,
+  };
 };
 
 const updateProperty = async (
@@ -126,7 +123,7 @@ const updateProperty = async (
 };
 
 const deleteProperty = async (id) => {
-  await prisma.pricing.deleteMany({
+  await prisma.pricing.delete({
     where: {
       propertyId: id,
     },

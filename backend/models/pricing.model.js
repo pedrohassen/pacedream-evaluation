@@ -72,7 +72,7 @@ const updatePricing = async (
 const deletePricing = async (id) => {
   const pricing = await prisma.pricing.delete({
     where: {
-      id,
+      propertyId: id,
     },
   });
   return pricing;
