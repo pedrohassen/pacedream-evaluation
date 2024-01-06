@@ -20,9 +20,9 @@ const createPropertyController = async (req, res) => {
     saturday,
     sunday,
   } = req.body;
-  const property = await createPropertyService(name);
+  const properties = await createPropertyService(name);
   const pricing = await createPricingService(
-    property.id,
+    properties.id,
     method,
     monday,
     tuesday,
@@ -33,7 +33,7 @@ const createPropertyController = async (req, res) => {
     sunday,
   );
   const { id: __, propertyId: _, ...pricingWithoutIdAndPropertyId } = pricing;
-  return res.status(201).json({ property, pricingWithoutIdAndPropertyId });
+  return res.status(201).json({ properties, pricingWithoutIdAndPropertyId });
 };
 
 const getPropertiesController = async (_req, res) => {
