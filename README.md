@@ -17,7 +17,7 @@
 
 ## Project-Overview
 
-This repository contains a project which was given to me by Mongso Inc as a test for a job opportunity. In summary, I had to create an API to serve as backend of part of one of their websites.</br>
+This repository contains a project which was given to me by Mongso Inc as a test for a job opportunity. In summary, I had to create an API to serve as backend for part of one of their websites.</br>
 For this project I used Javascript and Node js for the backend, Prisma and MongoDB for the database.</br>
 
 ---
