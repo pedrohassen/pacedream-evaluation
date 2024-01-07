@@ -6,7 +6,6 @@
 # Table of Contents
 * [Project Overview](#Project-Overview)
 * [Prerequisites](#Prerequisites)
-* [Usage](#Usage)
 * [Installation](#Installation)
 * [Routes](#Routes)
 * [support](#support)
@@ -14,10 +13,9 @@
 
 ---
 
-
 ## Project-Overview
 
-This repository contains a project which was given to me by Mongso Inc as a test for a job opportunity. In summary, I had to create an API to serve as backend for part of one of their websites.</br>
+This repository contains a project which was given to me by Mongso Inc as a test for a job opportunity. In summary, I had to create an API to serve as backend of part of one of their websites.</br>
 For this project I used Javascript and Node js for the backend, Prisma and MongoDB for the database.</br>
 
 ---
@@ -25,9 +23,9 @@ For this project I used Javascript and Node js for the backend, Prisma and Mongo
 ## Prerequisites
 
 For this project to run in your machine, you'll need to have installed:
-- npm or another similar package
-- Node.js
-- MongoDB
+- npm or another similar package - I recommend the version 10.2.3
+- Node.js - I recommend the version 18.19.0 'Hydrogen' (LTS)
+- Docker and Docker-compose
 
 ---
 
@@ -38,27 +36,13 @@ First of all, clone this repository using the SSH option with the command:
 git clone git@github.com:pedrohassen/pacedream-evaluation.git
 ```
 
-Install the dependencies, using the command:
+Build the entire project using this command:
 
 ```sh
-npm install
-```
-
-Create the database, using the command:
-
-```sh
-docker-compose up
+npm run build
 ```
 
 ---
-
-## Usage
-
-Use this command to run the project locally:
-
-```sh
-npm start
-```
 
 ## Routes
 
@@ -180,7 +164,7 @@ http://localhost:3001/property/:id
 👤 **Pedro Hasse Niemczewski**
 
 * Github: [@pedrohassen](https://github.com/pedrohassen)
-* Linkedin: [Pedro Hasse Niemczewski](https://www.linkedin.com/in/pedrohassen/?locale=en_US)
+* Linkedin: [Pedro Hasse Niemczewski](https://www.linkedin.com/in/pedrohassen/)
 
 ## support
 
