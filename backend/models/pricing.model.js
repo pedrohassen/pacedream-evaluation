@@ -1,6 +1,4 @@
-const { PrismaClient } = require('@prisma/client');
-
-const prisma = new PrismaClient();
+const { Pricing } = require('../database/schema');
 
 const createPricing = async (
   propertyId,
@@ -13,27 +11,23 @@ const createPricing = async (
   saturday,
   sunday,
 ) => {
-  const newPricing = await prisma.pricing.create({
-    data: {
-      propertyId,
-      method,
-      monday,
-      tuesday,
-      wednesday,
-      thursday,
-      friday,
-      saturday,
-      sunday,
-    },
+  const newPricing = await Pricing.create({
+    propertyId,
+    method,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+    sunday,
   });
   return newPricing;
 };
 
 const getPricingByPropertyId = async (propertyId) => {
-  const pricing = await prisma.pricing.findMany({
-    where: {
-      propertyId,
-    },
+  const pricing = await Pricing.find({
+    propertyId,
   });
   return pricing;
 };
@@ -50,11 +44,9 @@ const updatePricing = async (
   saturday,
   sunday,
 ) => {
-  const pricing = await prisma.pricing.update({
-    where: {
-      id,
-    },
-    data: {
+  const pricing = await Pricing.findByIdAndUpdate(
+    id,
+    {
       propertyId,
       method,
       monday,
@@ -65,15 +57,14 @@ const updatePricing = async (
       saturday,
       sunday,
     },
-  });
+    { new: true },
+  );
   return pricing;
 };
 
 const deletePricing = async (id) => {
-  const pricing = await prisma.pricing.delete({
-    where: {
-      propertyId: id,
-    },
+  const pricing = await Pricing.findOneAndDelete({
+    _id: id,
   });
   return pricing;
 };

@@ -1,44 +1,35 @@
-const { PrismaClient } = require('@prisma/client');
-
-const prisma = new PrismaClient();
+/* eslint-disable no-underscore-dangle */
+const { Property, Pricing } = require('../database/schema');
 
 const createProperty = async (name) => {
-  const newProperty = await prisma.property.create({
-    data: {
-      name,
-    },
+  const newProperty = await Property.create({
+    name,
   });
   return newProperty;
 };
 
 const getProperties = async () => {
-  const properties = await prisma.property.findMany({
-    orderBy: {
-      name: 'asc',
-    },
-  });
+  const properties = await Property.find().sort({ name: 'asc' });
 
-  const pricing = await prisma.pricing.findMany({
-    select: {
-      id: true,
-      propertyId: true,
-      method: true,
-      monday: true,
-      tuesday: true,
-      wednesday: true,
-      thursday: true,
-      friday: true,
-      saturday: true,
-      sunday: true,
-    },
+  const pricing = await Pricing.find().select({
+    id: true,
+    propertyId: true,
+    method: true,
+    monday: true,
+    tuesday: true,
+    wednesday: true,
+    thursday: true,
+    friday: true,
+    saturday: true,
+    sunday: true,
   });
 
   const placesWithPrices = properties.map((property) => ({
-    ...property,
+    ...property._doc,
     pricing: pricing
-      .filter((price) => price.propertyId === property.id)
+      .filter((price) => price.propertyId.toString() === property._id.toString())
       .map((price) => {
-        const { id: _, propertyId: __, ...rest } = price;
+        const { _id, propertyId, ...rest } = price._doc;
         return rest;
       }),
   }));
@@ -50,35 +41,27 @@ const getPropertyById = async (id) => {
   if (!id) {
     return {};
   }
-  const property = await prisma.property.findUnique({
-    where: {
-      id,
-    },
-  });
+
+  const property = await Property.findById(id);
 
   if (!property) {
     return null;
   }
 
-  const pricing = await prisma.pricing.findUnique({
-    where: {
-      propertyId: id,
-    },
-    select: {
-      method: true,
-      monday: true,
-      tuesday: true,
-      wednesday: true,
-      thursday: true,
-      friday: true,
-      saturday: true,
-      sunday: true,
-    },
+  const pricing = await Pricing.findOne({ propertyId: id }).select({
+    method: true,
+    monday: true,
+    tuesday: true,
+    wednesday: true,
+    thursday: true,
+    friday: true,
+    saturday: true,
+    sunday: true,
   });
 
   return {
-    ...property,
-    pricing,
+    ...property._doc,
+    pricing: pricing ? { ...pricing._doc } : null,
   };
 };
 
@@ -94,20 +77,11 @@ const updateProperty = async (
   saturday,
   sunday,
 ) => {
-  await prisma.property.update({
-    where: {
-      id,
-    },
-    data: {
-      name,
-    },
-  });
+  await Property.findByIdAndUpdate(id, { name });
 
-  await prisma.pricing.updateMany({
-    where: {
-      propertyId: id,
-    },
-    data: {
+  await Pricing.updateMany(
+    { propertyId: id },
+    {
       method,
       monday,
       tuesday,
@@ -117,23 +91,14 @@ const updateProperty = async (
       saturday,
       sunday,
     },
-  });
+  );
 
   return { message: 'Property updated successfully' };
 };
 
 const deleteProperty = async (id) => {
-  await prisma.pricing.delete({
-    where: {
-      propertyId: id,
-    },
-  });
-
-  await prisma.property.delete({
-    where: {
-      id,
-    },
-  });
+  await Pricing.deleteMany({ propertyId: id });
+  await Property.findByIdAndDelete(id);
 
   return { message: 'Property deleted successfully' };
 };
