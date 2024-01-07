@@ -5,6 +5,7 @@ const createProperty = async (name) => {
   const newProperty = await Property.create({
     name,
   });
+
   return newProperty;
 };
 
@@ -24,15 +25,20 @@ const getProperties = async () => {
     sunday: true,
   });
 
-  const placesWithPrices = properties.map((property) => ({
-    ...property._doc,
-    pricing: pricing
-      .filter((price) => price.propertyId.toString() === property._id.toString())
+  const placesWithPrices = properties.map((property) => {
+    const matchingPrices = pricing
+      .filter((price) => price.propertyId && price
+        .propertyId.toString() === property._id.toString())
       .map((price) => {
         const { _id, propertyId, ...rest } = price._doc;
         return rest;
-      }),
-  }));
+      });
+
+    return {
+      ...property._doc,
+      pricing: matchingPrices,
+    };
+  });
 
   return placesWithPrices;
 };
@@ -49,6 +55,7 @@ const getPropertyById = async (id) => {
   }
 
   const pricing = await Pricing.findOne({ propertyId: id }).select({
+    _id: 0,
     method: true,
     monday: true,
     tuesday: true,

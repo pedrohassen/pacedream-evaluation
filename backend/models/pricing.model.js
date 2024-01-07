@@ -22,6 +22,7 @@ const createPricing = async (
     saturday,
     sunday,
   });
+
   return newPricing;
 };
 
