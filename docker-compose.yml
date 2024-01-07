@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - '27017:27017'
+    command: mongod
+    networks:
+      - pacedream
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongodb:27017/test --quiet
+      interval: 5s
+      timeout: 10s
+      retries: 2
+    volumes:
+      - ./backend/database/data:/data/db
+
+  backend:
+    build: .
+    container_name: api
+    restart: always
+    tty: true
+    stdin_open: true
+    ports:
+      - '3001:3001'
+    environment:
+      - DATABASE_URL=mongodb://mongodb:27017/pacedream
+      - PORT=3001
+    volumes:
+      - ./backend:/app
+    networks:
+      - pacedream
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+networks:
+  pacedream:
+    driver: bridge
