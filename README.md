@@ -180,7 +180,7 @@ http://localhost:3001/property/:id
 👤 **Pedro Hasse Niemczewski**
 
 * Github: [@pedrohassen](https://github.com/pedrohassen)
-* Linkedin: [Pedro Hasse Niemczewski](https://www.linkedin.com/in/pedrohassen/)
+* Linkedin: [Pedro Hasse Niemczewski](https://www.linkedin.com/in/pedrohassen/?locale=en_US)
 
 ## support
 
