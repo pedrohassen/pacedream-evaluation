@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node backend/server.js",
+    "build": "docker compose up",
+    "remove": "docker compose stop && docker compose rm",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,13 +23,12 @@
   "devDependencies": {
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.29.1",
-    "prisma": "^5.7.1"
+    "eslint-plugin-import": "^2.29.1"
   },
   "dependencies": {
-    "@prisma/client": "^5.7.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3"
   }
 }
