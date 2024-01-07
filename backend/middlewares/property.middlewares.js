@@ -13,7 +13,7 @@ const validateCreation = (req, res, next) => {
 
   if (
     !name
-    || !method
+    || method === undefined || null
     || !monday
     || !tuesday
     || !wednesday
