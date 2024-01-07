@@ -72,18 +72,19 @@ Output - Following the above example, the output would be just like this. You ca
 ```sh
 {
   "properties": {
-    "id": "6599f78e7c553ffe00a3f789",
+    "id": "659ad9039ab5f16763b0cdc0",
     "name": "Grand Hotel"
   },
-  "pricingWithoutIdAndPropertyId": {
+  "cleanPricing": {
     "method": 0,
-    "monday": 50.2,
+    "monday": 53123120.2,
     "tuesday": 50.2,
     "wednesday": 50.2,
     "thursday": 50.2,
     "friday": 50.5,
     "saturday": 70.7,
-    "sunday": 70.7
+    "sunday": 70.7,
+    "__v": 0
   }
 }
 ```
@@ -102,6 +103,7 @@ Output:
   {
     "id": "6599ecce7c553ffe00a3f786",
     "name": "Green House",
+    "__v": 0,
     "pricing": [
       {
         "method": 1,
@@ -118,6 +120,7 @@ Output:
   {
     "id": "6599f78e7c553ffe00a3f789",
     "name": "Grand Hotel",
+    "__v": 0,
     "pricing": [
       {
         "method": 0,
